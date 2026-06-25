@@ -1,0 +1,130 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+body {
+  background: #2D3C59;
+  color: #eee;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+
+.wrap {
+  width: min(280px, 78vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+}
+
+h1 { font-size: 1.25rem; margin-bottom: 2px; color: #f0c040; font-weight: 700; }
+.subtitle { font-size: 0.72rem; color: #fff; margin-bottom: 8px; }
+
+.status {
+  width: 100%;
+  background: #16213e;
+  border: 1.5px solid #fff;
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.status .label    { font-size: 1rem; color: #fff; font-weight: 400; }
+.status .selected { font-size: 1rem; font-weight: 700; color: #f0c040; }
+
+.board {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  gap: 4px;
+}
+
+.row-zero {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.grid-36 {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+}
+
+.num-btn {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  font-size: clamp(0.8rem, 3.2vw, 1rem);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.grid-36 .num-btn {
+  height: 100%;
+  min-height: 0;
+}
+.num-btn.zero {
+  width: calc(100% / 3 - 3px);
+  height: clamp(34px, 5dvh, 46px);
+}
+.num-btn:active { transform: scale(0.93); }
+
+.green { background: #16a34a; color: #fff; }
+.red   { background: #D25353; color: #fff; }
+.black { background: #1f1f1f; color: #fff; }
+
+.num-btn.selected-btn {
+  border-color: #f0c040;
+  box-shadow: 0 0 10px #f0c04088;
+  transform: scale(1.06);
+}
+.num-btn.highlighted {
+  border-color: #4ade80;
+  box-shadow: 0 0 8px #4ade8066;
+  filter: brightness(1.3);
+}
+.num-btn.dimmed { opacity: 0.28; }
+
+.actions {
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+.btn-clear {
+  width: 50%;
+  padding: 9px 0;
+  border-radius: 10px;
+  border: none;
+  background: #fcfcfc;
+  color: #000;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-clear:active { opacity: 0.7; }
+
+.legend {
+  display: flex;
+  gap: 12px;
+  font-size: 1rem;
+  color: #ddd;
+  margin-bottom: 2px;
+}
+.legend span { display: flex; align-items: center; gap: 4px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
