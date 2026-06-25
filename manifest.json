@@ -2,7 +2,7 @@
   "name": "สูตรรูเล็ต",
   "short_name": "Roulette",
   "description": "แอปช่วยวางเดิมพันรูเล็ต — กดเลขที่ออก แทงตามไฮไลต์เขียว",
-  "start_url": "./roulette.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

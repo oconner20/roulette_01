@@ -1,6 +1,7 @@
 const CACHE_NAME = 'roulette-v1';
 const ASSETS = [
   './index.html',
+  './roulette.html',
   './manifest.json'
 ];
 
