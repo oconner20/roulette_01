@@ -41,6 +41,10 @@ const GROUPS = [
 ];
 
 let currentSelected = null;
+let currentGroup = null;
+let round = 0;
+let wins = 0;
+let losses = 0;
 
 const grid = document.getElementById('grid36');
 for (let n = 1; n <= 36; n++) {
@@ -53,33 +57,65 @@ for (let n = 1; n <= 36; n++) {
 }
 
 function selectNum(n) {
+  // หลังจากเคยเลือกเลขแล้ว การกดเลขใหม่จะเป็นการตัดสินผลของรอบก่อนหน้า
+  if (currentSelected !== null && currentGroup) {
+    const won = currentGroup.has(n) && n !== currentSelected;
+    addResult(n, won);
+  }
+
   currentSelected = n;
-  const group = new Set(GROUPS[n]);
-  const statusEl = document.getElementById('status');
+  currentGroup = new Set(GROUPS[n]);
+  renderBoard(n, currentGroup);
 
+  const highlightedCount = document.querySelectorAll('.num-btn.highlighted').length;
+  document.getElementById('status').innerHTML = `
+    <div class="status-line">
+      <span class="selected">เลขที่ออกล่าสุด : <span class="num">${n}</span></span>
+      <span class="highlight-count">ไฮไลต์ <strong>${highlightedCount}</strong> เลข</span>
+    </div>`;
+}
+
+function renderBoard(n, group) {
   document.querySelectorAll('.num-btn').forEach(btn => {
-    const v = parseInt(btn.dataset.n);
+    const v = parseInt(btn.dataset.n, 10);
     btn.classList.remove('selected-btn', 'highlighted', 'dimmed');
-    if (v === n) {
-      btn.classList.add('selected-btn');
-    } else if (group.has(v)) {
-      btn.classList.add('highlighted');
-    } else {
-      btn.classList.add('dimmed');
-    }
+    if (v === n) btn.classList.add('selected-btn');
+    else if (group.has(v)) btn.classList.add('highlighted');
+    else btn.classList.add('dimmed');
   });
+}
 
-  statusEl.innerHTML = `<span class="selected">เลขที่ออก : <span class="num">${n}</span></span>`;
+function addResult(number, won) {
+  round += 1;
+  if (won) wins += 1;
+  else losses += 1;
+
+  const body = document.getElementById('historyBody');
+  const empty = body.querySelector('.empty-row');
+  if (empty) empty.remove();
+
+  const row = document.createElement('tr');
+  row.innerHTML = `<td>${round}</td><td class="result-number">${number}</td><td><span class="result ${won ? 'win' : 'loss'}">${won ? 'ชนะ' : 'แพ้'}</span></td>`;
+  body.prepend(row);
+  document.getElementById('winCount').textContent = wins;
+  document.getElementById('lossCount').textContent = losses;
 }
 
 function select(n) { selectNum(n); }
 
 function clearSelection() {
   currentSelected = null;
+  currentGroup = null;
+  round = 0;
+  wins = 0;
+  losses = 0;
   document.querySelectorAll('.num-btn').forEach(btn => {
     btn.classList.remove('selected-btn', 'highlighted', 'dimmed');
   });
   document.getElementById('status').innerHTML = '<div class="label">กรุณากดเลขที่ออก</div>';
+  document.getElementById('historyBody').innerHTML = '<tr class="empty-row"><td colspan="3">ยังไม่มีผล</td></tr>';
+  document.getElementById('winCount').textContent = '0';
+  document.getElementById('lossCount').textContent = '0';
 }
 
 if ('serviceWorker' in navigator) {
